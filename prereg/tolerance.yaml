@@ -1,0 +1,4 @@
+# Fields that may differ between runs without counting as a difference.
+ignore_keys: [id, delayTime, executionTime, workerId, retries]
+# Scenarios whose output is expected to differ by construction: none.
+ignore_output_in: []
