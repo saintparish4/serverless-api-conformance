@@ -1,0 +1,11 @@
+# The cloud budget. `harness run --target real` reads the first number and refuses to
+# start a scenario that could pass it. It is an estimate of job seconds, and billing
+# also includes cold starts and idle time, so the hard limit is the prepaid balance.
+max_estimated_billed_seconds: 600  # three full passes at 184 s each, plus margin
+max_spend_usd: 5.00
+hard_limit: "A prepaid balance of 10 USD with automatic payments off."
+endpoint:
+  compute: CPU
+  max_workers: 1
+  active_workers: 0
+  idle_timeout_seconds: 5
