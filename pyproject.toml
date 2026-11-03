@@ -1,0 +1,65 @@
+[project]
+name = "serverless-api-conformance"
+version = "0.1.0"
+description = "Conformance suite and mock service for a GPU-serverless queue API"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi==0.162.0",
+  "pydantic==2.14.2",
+  "uvicorn==0.54.0",
+  "httpx==0.28.1",
+  "pyyaml==6.0.3",
+  "runpod==1.12.0",
+  "trustme==1.2.1",
+]
+
+[dependency-groups]
+dev = [
+  "hypothesis==6.170.14",
+  "mutmut==3.8.1",
+  "mypy==2.4.1",
+  "pytest==9.2.0",
+  "pytest-asyncio==1.4.1.post1",
+  "ruff==0.17.3",
+  "types-PyYAML==6.0.12.20261030",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mock", "harness", "worker", "tools"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["research", "mutants"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF", "ASYNC"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+packages = ["mock", "harness", "worker", "tools", "tests"]
+
+[[tool.mypy.overrides]]
+module = ["runpod.*", "mitmproxy.*", "trustme.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = ["slow: real-time fault or SDK cases", "docker: needs the Toxiproxy container"]
+addopts = "-q"
+
+[tool.mutmut]
+source_paths = ["mock/lifecycle.py", "mock/store.py"]
+also_copy = ["mock", "worker", "harness", "tests"]
+pytest_add_cli_args_test_selection = [
+  "tests/test_lifecycle.py",
+  "tests/test_store.py",
+  "tests/test_stateful.py",
+]
