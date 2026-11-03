@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.hypothesis/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+mutants/
+.certs/
+.env
+directive/
+# Raw captures stay local until reviewed. Only scrubbed files go in research/captures/.
+captures/
+results/aa-*/
+results/ci-matrix/
