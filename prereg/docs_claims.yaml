@@ -1,0 +1,28 @@
+# Every documented claim under test. Sources were read on 2026-11-01. `source` names
+# the page; the frozen text is in research/docs/<date>/ once Phase 1 has run.
+- {id: D-01, text: "/run maximum payload size is 10 MB", source: operation-reference}
+- {id: D-02, text: "/runsync maximum payload size is 20 MB", source: operation-reference}
+- {id: D-03, text: "A single streamed chunk is at most 1 MB; larger outputs are split", source: operation-reference}
+- {id: D-04, text: "/run results are retained 30 minutes after completion", source: operation-reference + send-requests}
+- {id: D-05, text: "/runsync results are retained 1 minute after completion", source: operation-reference + send-requests}
+- {id: D-06, text: "Sync results last 1 minute, up to 5 minutes with ?wait=t (contradicts the note that wait does not control retention)", source: operation-reference /retry note}
+- {id: D-07, text: "Status names are IN_QUEUE, IN_PROGRESS, COMPLETED, FAILED, CANCELLED, TIMED_OUT", source: job-states}
+- {id: D-08, text: "Retry only works for FAILED or TIMED_OUT", source: operation-reference}
+- {id: D-09, text: "Retry keeps the job id and removes previous output", source: operation-reference}
+- {id: D-10, text: "Cancel stops in-progress jobs, removes queued jobs, and returns CANCELLED", source: operation-reference}
+- {id: D-11, text: "ttl default 24 h, minimum 10 s, maximum 7 days", source: send-requests}
+- {id: D-12, text: "When TTL expires the job is deleted regardless of state and status returns 404", source: send-requests + endpoint-configurations}
+- {id: D-13, text: "executionTimeout minimum 5 s, maximum 7 days; a job exceeding it ends", source: send-requests}
+- {id: D-14, text: "/runsync waits 90 s by default; ?wait accepts 1000-300000 ms", source: operation-reference}
+- {id: D-15, text: "?ttl=x on the URL sets a job's TTL (placed under /status)", source: operation-reference}
+- {id: D-16, text: "/status returns IN_QUEUE, IN_PROGRESS, COMPLETED, FAILED (omits CANCELLED and TIMED_OUT)", source: operation-reference}
+- {id: D-17, text: "TIMED_OUT includes a job that expired before a worker picked it up (conflicts with D-12)", source: job-states}
+- {id: D-18, text: "Once expired, jobs cannot be retried", source: operation-reference}
+- {id: D-19, text: "/health reports jobs and workers counters", source: operation-reference}
+- {id: D-20, text: "Error codes 400, 401, 404, 429, 500", source: send-requests}
+- {id: D-21, text: "cURL examples send the bare key while other pages send Bearer", source: operation-reference vs send-requests}
+- {id: D-22, text: "Retrying /run after a timeout or 5xx can create a duplicate job, billed separately", source: send-requests}
+- {id: D-23, text: "run_sync timeout is caught with `except TimeoutError`", source: operation-reference}
+- {id: D-24, text: "The Python snippets for each operation run as written", source: operation-reference}
+- {id: D-25, text: "/run returns id and IN_QUEUE", source: operation-reference}
+- {id: D-26, text: "/runsync returns the full result with an id", source: operation-reference}
